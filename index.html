@@ -183,7 +183,7 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Anggaran Terpagu</p>
-                        <h3 class="text-xl font-extrabold text-white mt-1">Rp 312.577.174</h3>
+                        <h3 class="text-xl font-extrabold text-white mt-1">Rp 252.001.938</h3>
                     </div>
                     <div class="p-2.5 bg-blue-500/10 text-blue-400 rounded-xl border border-blue-500/20">
                         <i class="fa-solid fa-wallet text-lg"></i>
@@ -398,19 +398,18 @@
                         <i class="fa-solid fa-sack-dollar text-amber-400"></i>
                         Total Anggaran Terpagu Masing-Masing Unit Kerja (Sheet Top Up Non PO)
                     </h3>
-                    <p class="text-xs text-slate-400">Sesuai data master Pagu Varcost Pertahun</p>
+                    <p class="text-xs text-slate-400">Sesuai data master Pagu Varcost Pertahun dan Sheet Top-Up</p>
                 </div>
 
                 <div class="overflow-x-auto rounded-xl border border-slate-800">
                     <table class="w-full text-left text-xs text-slate-200">
                         <thead class="bg-slate-900 text-slate-400 font-bold uppercase tracking-wider text-[10px] border-b border-slate-800">
                             <tr>
-                                <th class="p-3.5">UNIT KERJA</th>
-                                <th class="p-3.5">SEKSI</th>
-                                <th class="p-3.5">BIDANG</th>
-                                <th class="p-3.5 text-center">QTY TAD</th>
-                                <th class="p-3.5 text-right font-bold text-sky-400">PAGU TAHUNAN (RP)</th>
-                                <th class="p-3.5 text-right font-bold text-amber-400">PAGU / BULAN</th>
+                                <th class="p-3.5">BIDANG / UNIT KERJA</th>
+                                <th class="p-3.5 text-right font-bold text-amber-400">ANGGARAN TERPAGU</th>
+                                <th class="p-3.5 text-right font-bold text-sky-400">PAGU / BULAN</th>
+                                <th class="p-3.5 text-right font-bold text-blue-400">PAGU 12 BULAN</th>
+                                <th class="p-3.5 text-center font-bold text-emerald-400">% PENYERAPAN PAGU</th>
                             </tr>
                         </thead>
                         <tbody id="tableTerpaguBody" class="divide-y divide-slate-800/60 bg-slate-950/40"></tbody>
@@ -434,7 +433,6 @@
             
             monthsList: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep"],
             
-            // Total monthly component trends across all units
             globalOt: [1650000, 6317000, 8360000, 10957000, 14658000, 9432000, 12516000, 13866000, 5162000],
             globalSppd: [2600000, 10680000, 13443000, 24594000, 29441000, 15168000, 18584000, 52219000, 6000000],
             globalShift: [100000, 100000, 100000, 100000, 100000, 95000, 0, 0, 0],
@@ -442,11 +440,14 @@
             units: [
                 { 
                     id: "OP_ASET", 
-                    unitName: "Sub Bidang Operasi",
+                    unitName: "Sub Bidang Operasi, Pemeliharaan & Aset",
                     seksi: "SUB BIDANG OPERASI, PEMELIHARAAN & ASET", 
-                    bidang: "SUB BIDANG OPERASI, PEMELIHARAAN & ASET", 
+                    bidang: "SUB BIDANG OPERASI, PEMELIHARAAN DAN AS", 
                     tad: 9, 
+                    anggaranTerpagu: 75400000,
+                    paguBulan: 8682699,
                     paguTahunan: 104192391, 
+                    penyerapanPct: 72.37,
                     realisasi: 66057000,
                     ot: 41912000,
                     sppd: 23450000,
@@ -461,7 +462,10 @@
                     seksi: "UNIT LAYANAN PALU, KENDARI DAN MAMUJU", 
                     bidang: "UNIT LAYANAN PALU, KENDARI DAN MAMUJU", 
                     tad: 11, 
+                    anggaranTerpagu: 138101938,
+                    paguBulan: 10612188,
                     paguTahunan: 127346256, 
+                    penyerapanPct: 108.45,
                     realisasi: 130044000,
                     ot: 33094000,
                     sppd: 96950000,
@@ -476,7 +480,10 @@
                     seksi: "UNIT LAYANAN SULUTENGGO", 
                     bidang: "UNIT LAYANAN SULUTENGGO", 
                     tad: 7, 
+                    anggaranTerpagu: 38500000,
+                    paguBulan: 6753211,
                     paguTahunan: 81038526, 
+                    penyerapanPct: 47.51,
                     realisasi: 37284000,
                     ot: 18909000,
                     sppd: 18375000,
@@ -651,7 +658,6 @@
         function renderGlobalTrendCharts() {
             if (typeof Chart === 'undefined') return;
 
-            // Trend OT
             var ctxOt = document.getElementById('trendOtChart');
             if (ctxOt) {
                 if (chartInstances.trendOt) chartInstances.trendOt.destroy();
@@ -680,7 +686,6 @@
                 });
             }
 
-            // Trend SPPD
             var ctxSppd = document.getElementById('trendSppdChart');
             if (ctxSppd) {
                 if (chartInstances.trendSppd) chartInstances.trendSppd.destroy();
@@ -709,7 +714,6 @@
                 });
             }
 
-            // Trend Shift
             var ctxShift = document.getElementById('trendShiftChart');
             if (ctxShift) {
                 if (chartInstances.trendShift) chartInstances.trendShift.destroy();
@@ -896,35 +900,36 @@
             if (!tbody) return;
 
             var rows = '';
-            var totalTad = 0, totalPagu = 0, totalBulan = 0;
+            var totalAnggaranTerpagu = 0, totalPaguBulan = 0, totalPaguTahunan = 0;
             var list = DATASTORE.units;
 
             for (var i = 0; i < list.length; i++) {
                 var u = list[i];
-                totalTad += u.tad;
-                totalPagu += u.paguTahunan;
-                var paguBulan = u.paguTahunan / 12;
-                totalBulan += paguBulan;
+                totalAnggaranTerpagu += u.anggaranTerpagu;
+                totalPaguBulan += u.paguBulan;
+                totalPaguTahunan += u.paguTahunan;
 
-                var tadColorClass = u.tad >= 10 ? "bg-amber-500/20 text-amber-300 border-amber-500/30" : (u.tad >= 8 ? "bg-sky-500/20 text-sky-300 border-sky-500/30" : "bg-emerald-500/20 text-emerald-300 border-emerald-500/30");
+                var penyerapanClass = u.penyerapanPct > 100 ? "text-rose-400 font-extrabold" : "text-emerald-400 font-extrabold";
 
                 rows += '<tr class="hover:bg-slate-900/60 transition">' +
-                    '<td class="p-3.5 font-semibold text-slate-100">' + u.unitName + '</td>' +
-                    '<td class="p-3.5 text-slate-300">' + u.seksi + '</td>' +
-                    '<td class="p-3.5 text-slate-300">' + u.bidang + '</td>' +
-                    '<td class="p-3.5 text-center"><span class="px-2 py-0.5 text-xs font-extrabold rounded-md border ' + tadColorClass + '">' + u.tad + ' Orang</span></td>' +
-                    '<td class="p-3.5 text-right font-bold text-sky-400">' + formatIDR(u.paguTahunan) + '</td>' +
-                    '<td class="p-3.5 text-right font-bold text-amber-400">' + formatIDR(paguBulan) + '</td>' +
+                    '<td class="p-3.5 font-semibold text-slate-100">' + u.bidang + '</td>' +
+                    '<td class="p-3.5 text-right font-bold text-amber-400">' + formatIDR(u.anggaranTerpagu) + '</td>' +
+                    '<td class="p-3.5 text-right font-semibold text-sky-400">' + formatIDR(u.paguBulan) + '</td>' +
+                    '<td class="p-3.5 text-right font-bold text-blue-400">' + formatIDR(u.paguTahunan) + '</td>' +
+                    '<td class="p-3.5 text-center ' + penyerapanClass + '">' + u.penyerapanPct.toFixed(2).replace('.', ',') + '%</td>' +
                 '</tr>';
             }
+
+            var totalPenyerapanPct = (totalAnggaranTerpagu / totalPaguTahunan) * 100;
 
             tbody.innerHTML = rows;
             if (tfoot) {
                 tfoot.innerHTML = '<tr>' +
-                    '<td class="p-3.5 font-bold" colspan="3">TOTAL</td>' +
-                    '<td class="p-3.5 text-center font-bold text-sky-400">' + totalTad + ' Orang</td>' +
-                    '<td class="p-3.5 text-right font-bold text-sky-400">' + formatIDR(totalPagu) + '</td>' +
-                    '<td class="p-3.5 text-right font-bold text-amber-400">' + formatIDR(totalBulan) + '</td>' +
+                    '<td class="p-3.5 font-bold">TOTAL</td>' +
+                    '<td class="p-3.5 text-right font-bold text-amber-400">' + formatIDR(totalAnggaranTerpagu) + '</td>' +
+                    '<td class="p-3.5 text-right font-bold text-sky-400">' + formatIDR(totalPaguBulan) + '</td>' +
+                    '<td class="p-3.5 text-right font-bold text-blue-400">' + formatIDR(totalPaguTahunan) + '</td>' +
+                    '<td class="p-3.5 text-center font-extrabold text-emerald-400">' + totalPenyerapanPct.toFixed(2).replace('.', ',') + '%</td>' +
                 '</tr>';
             }
         }
