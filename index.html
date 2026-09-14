@@ -410,6 +410,7 @@
                                 <th class="p-3.5 text-right font-bold text-sky-400">PAGU / BULAN</th>
                                 <th class="p-3.5 text-right font-bold text-blue-400">PAGU 12 BULAN</th>
                                 <th class="p-3.5 text-center font-bold text-emerald-400">% PENYERAPAN PAGU</th>
+                                <th class="p-3.5 text-center font-bold text-slate-200">STATUS PENYERAPAN</th>
                             </tr>
                         </thead>
                         <tbody id="tableTerpaguBody" class="divide-y divide-slate-800/60 bg-slate-950/40"></tbody>
@@ -909,18 +910,37 @@
                 totalPaguBulan += u.paguBulan;
                 totalPaguTahunan += u.paguTahunan;
 
-                var penyerapanClass = u.penyerapanPct > 100 ? "text-rose-400 font-extrabold" : "text-emerald-400 font-extrabold";
+                var pct = u.penyerapanPct;
+                var badgeClass = "bg-emerald-500/20 text-emerald-400 border-emerald-500/30";
+                var badgeText = "SAFE (<75%)";
+                if (pct > 100) {
+                    badgeClass = "bg-rose-500/20 text-rose-400 border-rose-500/30";
+                    badgeText = "OVER (>100%)";
+                } else if (pct >= 75) {
+                    badgeClass = "bg-amber-500/20 text-amber-400 border-amber-500/30";
+                    badgeText = "WARNING (75-100%)";
+                }
 
                 rows += '<tr class="hover:bg-slate-900/60 transition">' +
                     '<td class="p-3.5 font-semibold text-slate-100">' + u.bidang + '</td>' +
                     '<td class="p-3.5 text-right font-bold text-amber-400">' + formatIDR(u.anggaranTerpagu) + '</td>' +
                     '<td class="p-3.5 text-right font-semibold text-sky-400">' + formatIDR(u.paguBulan) + '</td>' +
                     '<td class="p-3.5 text-right font-bold text-blue-400">' + formatIDR(u.paguTahunan) + '</td>' +
-                    '<td class="p-3.5 text-center ' + penyerapanClass + '">' + u.penyerapanPct.toFixed(2).replace('.', ',') + '%</td>' +
+                    '<td class="p-3.5 text-center font-extrabold text-emerald-400">' + pct.toFixed(2).replace('.', ',') + '%</td>' +
+                    '<td class="p-3.5 text-center"><span class="px-2.5 py-1 text-[10px] font-extrabold border rounded-full ' + badgeClass + '">' + badgeText + '</span></td>' +
                 '</tr>';
             }
 
             var totalPenyerapanPct = (totalAnggaranTerpagu / totalPaguTahunan) * 100;
+            var totalBadgeClass = "bg-emerald-500/20 text-emerald-400 border-emerald-500/30";
+            var totalBadgeText = "SAFE (<75%)";
+            if (totalPenyerapanPct > 100) {
+                totalBadgeClass = "bg-rose-500/20 text-rose-400 border-rose-500/30";
+                totalBadgeText = "OVER (>100%)";
+            } else if (totalPenyerapanPct >= 75) {
+                totalBadgeClass = "bg-amber-500/20 text-amber-400 border-amber-500/30";
+                totalBadgeText = "WARNING (75-100%)";
+            }
 
             tbody.innerHTML = rows;
             if (tfoot) {
@@ -930,6 +950,7 @@
                     '<td class="p-3.5 text-right font-bold text-sky-400">' + formatIDR(totalPaguBulan) + '</td>' +
                     '<td class="p-3.5 text-right font-bold text-blue-400">' + formatIDR(totalPaguTahunan) + '</td>' +
                     '<td class="p-3.5 text-center font-extrabold text-emerald-400">' + totalPenyerapanPct.toFixed(2).replace('.', ',') + '%</td>' +
+                    '<td class="p-3.5 text-center"><span class="px-2.5 py-1 text-[10px] font-extrabold border rounded-full ' + totalBadgeClass + '">' + totalBadgeText + '</span></td>' +
                 '</tr>';
             }
         }
