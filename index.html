@@ -489,9 +489,9 @@
             var activeBtn = document.getElementById('btn-' + tabId);
             if (activeBtn) activeBtn.classList.add('bg-sky-600', 'text-white', 'font-semibold');
 
-            if (tabId === 'tab-ringkasan') setTimeout(renderCharts, 50);
+            if (tabId === 'tab-ringkasan') setTimeout(renderCharts, 100);
             if (tabId === 'tab-monitoring') renderMonitoringTable();
-            if (tabId === 'tab-trend-bidang') setTimeout(renderBreakdownDiagrams, 50);
+            if (tabId === 'tab-trend-bidang') setTimeout(renderBreakdownDiagrams, 100);
             if (tabId === 'tab-relokasi') renderTerpaguTable();
         }
 
@@ -649,7 +649,7 @@
                         });
                     }
                 }
-            }, 50);
+            }, 100);
         }
 
         function renderMonitoringTable() {
@@ -757,12 +757,14 @@
             alert("File CSV berhasil diexport.");
         }
 
-        window.onload = function() {
-            renderCharts();
-            renderMonitoringTable();
-            renderTerpaguTable();
-            renderBreakdownDiagrams();
-        };
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                renderCharts();
+                renderMonitoringTable();
+                renderTerpaguTable();
+                renderBreakdownDiagrams();
+            }, 100);
+        });
     </script>
 </body>
 </html>
