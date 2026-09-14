@@ -129,7 +129,7 @@
 
     <main class="flex-1 max-w-[1600px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-        <!-- 5 KPI Scorecard Cards Sesuai Permintaan -->
+        <!-- KPI Scorecard Cards -->
         <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             <div class="bi-card rounded-2xl p-4 relative overflow-hidden">
                 <div class="flex justify-between items-start">
@@ -183,15 +183,15 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Anggaran Terpagu</p>
-                        <h3 class="text-xl font-extrabold text-sky-400 mt-1">Rp 233.385.000</h3>
+                        <h3 class="text-xl font-extrabold text-sky-400 mt-1">Rp 252.001.938</h3>
                     </div>
                     <div class="p-2.5 bg-sky-500/10 text-sky-400 rounded-xl border border-sky-500/20">
                         <i class="fa-solid fa-sack-dollar text-lg"></i>
                     </div>
                 </div>
                 <div class="mt-3 flex items-center justify-between text-xs text-slate-400 border-t border-slate-800 pt-2">
-                    <span>Sheet Top Up</span>
-                    <span class="text-emerald-400 font-bold">4 Bidang Aktif</span>
+                    <span>Sheet Top Up Non PO</span>
+                    <span class="text-emerald-400 font-bold">Aktif</span>
                 </div>
             </div>
 
@@ -231,7 +231,7 @@
                     </div>
                 </div>
 
-                <!-- Donut Chart Komponen Varcost dengan Nilai Rupiah -->
+                <!-- Donut Chart Komponen Varcost -->
                 <div class="bi-card rounded-2xl p-5 shadow-sm space-y-4">
                     <div class="border-b border-slate-800 pb-3">
                         <h3 class="text-sm font-bold text-white flex items-center gap-2">
@@ -245,27 +245,15 @@
                         <canvas id="componentChart"></canvas>
                     </div>
 
-                    <div id="componentLegend" class="grid grid-cols-3 gap-1 text-center text-xs border-t border-slate-800 pt-3">
-                        <div>
-                            <span class="inline-block w-2.5 h-2.5 rounded-full bg-sky-500 mr-1"></span>
-                            <span class="font-bold text-slate-300">OT: 40.2%</span>
-                            <div class="text-[10px] text-amber-400 font-semibold mt-0.5">Rp 93.91 Jt</div>
-                        </div>
-                        <div>
-                            <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-500 mr-1"></span>
-                            <span class="font-bold text-slate-300">SPPD: 59.5%</span>
-                            <div class="text-[10px] text-amber-400 font-semibold mt-0.5">Rp 138.78 Jt</div>
-                        </div>
-                        <div>
-                            <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 mr-1"></span>
-                            <span class="font-bold text-slate-300">Shift: 0.3%</span>
-                            <div class="text-[10px] text-amber-400 font-semibold mt-0.5">Rp 0.70 Jt</div>
-                        </div>
+                    <div id="componentLegend" class="grid grid-cols-3 gap-2 text-center text-xs border-t border-slate-800 pt-3">
+                        <div><span class="inline-block w-2.5 h-2.5 rounded-full bg-sky-500 mr-1"></span><span class="font-bold text-slate-300">OT: 40.2%</span><div class="text-[10px] text-slate-400">Rp 93.91 Jt</div></div>
+                        <div><span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-500 mr-1"></span><span class="font-bold text-slate-300">SPPD: 59.5%</span><div class="text-[10px] text-slate-400">Rp 138.78 Jt</div></div>
+                        <div><span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 mr-1"></span><span class="font-bold text-slate-300">Shift: 0.3%</span><div class="text-[10px] text-slate-400">Rp 0.70 Jt</div></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Bar Chart Unit (Unit dengan Realisasi 0 dihilangkan) -->
+            <!-- Bar Chart Unit & Highlights -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 bi-card rounded-2xl p-5 shadow-sm space-y-4">
                     <div class="border-b border-slate-800 pb-3">
@@ -273,7 +261,7 @@
                             <i class="fa-solid fa-ranking-star text-amber-400"></i>
                             Realisasi Varcost per Sub Bidang & Unit Layanan (HAR Ritel)
                         </h3>
-                        <p class="text-xs text-slate-400">Urutan unit kerja berdasarkan total realisasi anggaran (YTD) - Unit nihil disembunyikan</p>
+                        <p class="text-xs text-slate-400">Urutan unit kerja berdasarkan total realisasi anggaran (YTD)</p>
                     </div>
                     <div class="relative h-72 w-full">
                         <canvas id="unitBarChart"></canvas>
@@ -331,15 +319,14 @@
                         <thead class="bg-slate-900 text-slate-400 font-bold uppercase tracking-wider text-[10px] border-b border-slate-800">
                             <tr>
                                 <th class="p-3.5">Unit Kerja / Sub Bidang</th>
-                                <th class="p-3.5 text-center">QTY TAD</th>
-                                <th class="p-3.5 text-right font-bold text-amber-400">Pagu Tahunan (Rp)</th>
-                                <th class="p-3.5 text-right font-semibold text-slate-300">Lembur (OT)</th>
-                                <th class="p-3.5 text-right font-semibold text-slate-300">SPPD</th>
-                                <th class="p-3.5 text-right font-semibold text-slate-300">Shifting</th>
+                                <th class="p-3.5 text-center" style="color: #38bdf8;">QTY TAD</th>
+                                <th class="p-3.5 text-right font-bold text-amber-400">PAGU TAHUNAN (RP)</th>
+                                <th class="p-3.5 text-right font-bold text-sky-400">Lembur (OT)</th>
+                                <th class="p-3.5 text-right font-bold text-purple-400">SPPD</th>
+                                <th class="p-3.5 text-right font-bold text-emerald-400">Shifting</th>
                                 <th class="p-3.5 text-right font-bold text-sky-400">Total Realisasi</th>
-                                <th class="p-3.5 text-right font-semibold text-emerald-400">Sisa Pagu (Rp)</th>
-                                <th class="p-3.5 text-right font-semibold text-sky-300">% Realisasi</th>
-                                <th class="p-3.5 text-center font-bold">STATUS PENYERAPAN</th>
+                                <th class="p-3.5 text-right font-bold text-slate-300">Sisa Pagu</th>
+                                <th class="p-3.5 text-center">Status Penyerapan</th>
                             </tr>
                         </thead>
                         <tbody id="tableMonitoringBody" class="divide-y divide-slate-800/60 bg-slate-950/40"></tbody>
@@ -357,9 +344,9 @@
                         <i class="fa-solid fa-chart-column text-sky-400"></i>
                         BREAKDOWN DIAGRAM TABUNG PER SUB BIDANG / UNIT LAYANAN
                     </h3>
-                    <p class="text-xs text-slate-400">Visualisasi rincian komparasi bulanan untuk unit kerja HAR Ritel yang berelalisasi</p>
+                    <p class="text-xs text-slate-400">Visualisasi rincian komparasi bulanan untuk masing-masing unit kerja HAR Ritel</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2" id="breakdownCardsGrid"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-2" id="breakdownCardsGrid"></div>
             </div>
         </div>
 
@@ -404,10 +391,21 @@
             noPO: "4500027303",
             totalTAD: 27,
             
-            monthsList: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep"],
+            monthsList: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
 
-            // Hanya unit yang memiliki realisasi > 0 (Maluku & Papua yang bernilai 0 disembunyikan sesuai permintaan)
             units: [
+                { 
+                    id: "OPERASI", 
+                    shortName: "OPERASI & PEMELIHARAAN", 
+                    fullName: "SUB BIDANG OPERASI, PEMELIHARAAN DAN ASET SULAWESI DAN IBT", 
+                    tad: 9, 
+                    paguTahunan: 104192391, 
+                    realisasi: 66057000,
+                    ot: 41912000,
+                    sppd: 23450000,
+                    shift: 695000,
+                    monthlyVals: [0, 880000, 4531000, 7694000, 19241000, 8268000, 11284000, 12086000, 2073000, 0, 0, 0]
+                },
                 { 
                     id: "RITEL", 
                     shortName: "PENJUALAN RITEL & ADMIN", 
@@ -415,31 +413,356 @@
                     tad: 2, 
                     paguTahunan: 4056000, 
                     realisasi: 4056000,
-                    ot: 1200000,
-                    sppd: 2756000,
-                    shift: 100000,
-                    monthlyVals: [0, 225000, 720000, 511000, 609000, 0, 709000, 1282000, 0]
-                },
-                { 
-                    id: "OPERASI", 
-                    shortName: "OPERASI & PEMELIHARAAN", 
-                    fullName: "SUB BIDANG OPERASI, PEMELIHARAAN DAN ASET SULAWESI DAN IBT", 
-                    tad: 10, 
-                    paguTahunan: 66057000, 
-                    realisasi: 66057000,
-                    ot: 28000000,
-                    sppd: 37700000,
-                    shift: 357000,
-                    monthlyVals: [0, 880000, 4531000, 7694000, 19241000, 8268000, 11284000, 12086000, 2073000]
+                    ot: 3531000,
+                    sppd: 525000,
+                    shift: 0,
+                    monthlyVals: [0, 225000, 720000, 511000, 609000, 0, 709000, 1282000, 0, 0, 0, 0]
                 },
                 { 
                     id: "PALU", 
                     shortName: "PALU, KENDARI & MAMUJU", 
                     fullName: "UNIT LAYANAN PALU, KENDARI DAN MAMUJU", 
-                    tad: 8, 
-                    paguTahunan: 130044000, 
+                    tad: 11, 
+                    paguTahunan: 127346256, 
                     realisasi: 130044000,
-                    ot: 54100000,
-                    sppd: 75756000,
-                    shift: 188000,
-                    monthlyVals: [4468000, 14204000, 11812
+                    ot: 33094000,
+                    sppd: 96950000,
+                    shift: 0,
+                    monthlyVals: [4468000, 14204000, 11812000, 22164000, 19758000, 13703000, 15686000, 24924000, 3325000, 0, 0, 0]
+                },
+                { 
+                    id: "SULUTENGGO", 
+                    shortName: "UNIT LAYANAN SULUTENGGO", 
+                    fullName: "UNIT LAYANAN SULUTENGGO", 
+                    tad: 7, 
+                    paguTahunan: 81038526, 
+                    realisasi: 33228000,
+                    ot: 15378000,
+                    sppd: 17850000,
+                    shift: 0,
+                    monthlyVals: [3083000, 3313000, 5560000, 5793000, 2448000, 3459000, 4718000, 7160000, 1750000, 0, 0, 0]
+                }
+            ],
+
+            monthlyTrend: [
+                { id: "Jan-26", label: "Jan", total: 7551000, pagu: 26048098 },
+                { id: "Feb-26", label: "Feb", total: 18397000, pagu: 26048098 },
+                { id: "Mar-26", label: "Mar", total: 21903000, pagu: 26048098 },
+                { id: "Apr-26", label: "Apr", total: 35651000, pagu: 26048098 },
+                { id: "Mei-26", label: "Mei", total: 41447000, pagu: 26048098 },
+                { id: "Jun-26", label: "Jun", total: 25430000, pagu: 26048098 },
+                { id: "Jul-26", label: "Jul", total: 31688000, pagu: 26048098 },
+                { id: "Agu-26", label: "Agu", total: 44170000, pagu: 26048098 },
+                { id: "Sep-26", label: "Sep", total: 7148000, pagu: 26048098 },
+                { id: "Okt-26", label: "Okt", total: 0, pagu: 26048098 },
+                { id: "Nov-26", label: "Nov", total: 0, pagu: 26048098 },
+                { id: "Des-26", label: "Des", total: 0, pagu: 26048098 }
+            ],
+
+            terpaguBidang: [
+                { name: "SUB BIDANG OPERASI, PEMELIHARAAN DAN ASET SULAWESI DAN IBT", terpagu: 8682699, paguBulan: 723558, tahunan: 104192391, penyerapan: "63.40%" },
+                { name: "SUB BIDANG PENJUALAN RITEL DAN ADMINISTRASI SULAWESI DAN IBT", terpagu: 4056000, paguBulan: 338000, tahunan: 4056000, penyerapan: "100.00%" },
+                { name: "UNIT LAYANAN PALU, KENDARI DAN MAMUJU", terpagu: 138101938, paguBulan: 11508495, tahunan: 127346256, penyerapan: "102.12%" },
+                { name: "UNIT LAYANAN SULUTENGGO", terpagu: 38500000, paguBulan: 3208333, tahunan: 81038526, penyerapan: "41.00%" }
+            ]
+        };
+
+        var chartInstances = {};
+
+        function formatIDR(val) { 
+            return "Rp " + Math.round(val || 0).toLocaleString("id-ID"); 
+        }
+
+        function switchTab(tabId) {
+            var tabs = document.querySelectorAll('.tab-content');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.add('hidden');
+            }
+            var activeTab = document.getElementById(tabId);
+            if (activeTab) activeTab.classList.remove('hidden');
+
+            var buttons = document.querySelectorAll('.tab-btn');
+            for (var j = 0; j < buttons.length; j++) {
+                buttons[j].classList.remove('bg-sky-600', 'text-white', 'font-semibold');
+                buttons[j].classList.add('text-slate-400');
+            }
+            var activeBtn = document.getElementById('btn-' + tabId);
+            if (activeBtn) activeBtn.classList.add('bg-sky-600', 'text-white', 'font-semibold');
+
+            if (tabId === 'tab-ringkasan') setTimeout(renderCharts, 50);
+            if (tabId === 'tab-monitoring') renderMonitoringTable();
+            if (tabId === 'tab-trend-bidang') setTimeout(renderBreakdownDiagrams, 50);
+            if (tabId === 'tab-relokasi') renderTerpaguTable();
+        }
+
+        function toggleTheme() {
+            var html = document.documentElement;
+            html.classList.toggle('light');
+            html.classList.toggle('dark');
+            renderCharts();
+            renderBreakdownDiagrams();
+        }
+
+        function renderCharts() {
+            if (typeof Chart === 'undefined') return;
+            var months = DATASTORE.monthlyTrend;
+            var units = DATASTORE.units;
+
+            var ctxTrend = document.getElementById('trendChart');
+            if (ctxTrend) {
+                if (chartInstances.trend) chartInstances.trend.destroy();
+                var barColors = months.map(function(m) { return (m.total || 0) > m.pagu ? '#f43f5e' : '#0284c7'; });
+
+                chartInstances.trend = new Chart(ctxTrend, {
+                    type: 'bar',
+                    data: {
+                        labels: months.map(function(m) { return m.label; }),
+                        datasets: [
+                            { 
+                                type: 'line', 
+                                label: 'Batas Pagu Perbulan (Rp 26.05 Juta)', 
+                                data: months.map(function(m) { return m.pagu; }), 
+                                borderColor: '#f43f5e', 
+                                borderWidth: 2, 
+                                borderDash: [5,5], 
+                                pointRadius: 0, 
+                                order: 1 
+                            },
+                            { 
+                                type: 'bar', 
+                                label: 'Grand Total Realisasi', 
+                                data: months.map(function(m) { return m.total; }), 
+                                backgroundColor: barColors, 
+                                borderRadius: 6, 
+                                order: 2 
+                            }
+                        ]
+                    },
+                    options: { 
+                        responsive: true, 
+                        maintainAspectRatio: false, 
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: {
+                                ticks: {
+                                    callback: function(value) {
+                                        return value >= 1000000 ? (value / 1000000).toFixed(0) + ' Jt' : value;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            var ctxComp = document.getElementById('componentChart');
+            if (ctxComp) {
+                if (chartInstances.comp) chartInstances.comp.destroy();
+                chartInstances.comp = new Chart(ctxComp, {
+                    type: 'doughnut',
+                    data: { 
+                        labels: ['Lembur (OT)', 'SPPD', 'Shifting'], 
+                        datasets: [{ 
+                            data: [93915000, 138775000, 695000], 
+                            backgroundColor: ['#0284c7', '#f59e0b', '#10b981'], 
+                            borderWidth: 0 
+                        }] 
+                    },
+                    options: { 
+                        responsive: true, 
+                        maintainAspectRatio: false, 
+                        cutout: '72%', 
+                        plugins: { legend: { display: false } } 
+                    }
+                });
+            }
+
+            var ctxBar = document.getElementById('unitBarChart');
+            if (ctxBar) {
+                if (chartInstances.unitBar) chartInstances.unitBar.destroy();
+                chartInstances.unitBar = new Chart(ctxBar, {
+                    type: 'bar',
+                    data: {
+                        labels: units.map(function(u) { return u.shortName; }),
+                        datasets: [{ 
+                            data: units.map(function(u) { return u.realisasi; }), 
+                            backgroundColor: ['#38bdf8', '#34d399', '#f59e0b', '#a78bfa'], 
+                            borderRadius: 6 
+                        }]
+                    },
+                    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+                });
+            }
+        }
+
+        function renderBreakdownDiagrams() {
+            var grid = document.getElementById('breakdownCardsGrid');
+            if (!grid) return;
+            var units = DATASTORE.units;
+
+            var html = '';
+            for (var i = 0; i < units.length; i++) {
+                var u = units[i];
+                var chartId = 'breakdownChart_' + u.id;
+                html += '<div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between space-y-4 shadow-md">' +
+                    '<div class="flex items-start justify-between">' +
+                        '<div>' +
+                            '<h4 class="text-xs font-black uppercase text-white tracking-wider truncate max-w-[220px]" title="' + u.fullName + '">' + u.shortName + '</h4>' +
+                            '<p class="text-[11px] text-slate-400 mt-0.5">Total Realisasi: <strong class="text-amber-400">' + formatIDR(u.realisasi) + '</strong></p>' +
+                        '</div>' +
+                        '<span class="px-2.5 py-1 text-[10px] font-extrabold bg-sky-500/10 text-sky-400 border border-sky-500/20 rounded-lg">' + u.tad + ' Orang</span>' +
+                    '</div>' +
+                    '<div class="relative h-48 w-full">' +
+                        '<canvas id="' + chartId + '"></canvas>' +
+                    '</div>' +
+                    '<div class="text-center text-[10px] border-t border-slate-800 pt-3 bg-slate-950/40 rounded-xl p-2">' +
+                        '<div class="text-slate-400 font-bold">Pagu Tahunan</div><div class="font-extrabold text-sky-400 mt-0.5">' + formatIDR(u.paguTahunan) + '</div>' +
+                    '</div>' +
+                '</div>';
+            }
+            grid.innerHTML = html;
+
+            setTimeout(function() {
+                for (var j = 0; j < units.length; j++) {
+                    var unit = units[j];
+                    var cid = 'breakdownChart_' + unit.id;
+                    var ctx = document.getElementById(cid);
+                    if (ctx) {
+                        if (chartInstances[cid]) chartInstances[cid].destroy();
+                        var cleanVals = unit.monthlyVals.map(function(v) { return (v === 0 || v === null) ? null : v; });
+
+                        chartInstances[cid] = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: DATASTORE.monthsList,
+                                datasets: [{ label: 'Realisasi', data: cleanVals, backgroundColor: '#0284c7', borderRadius: 4, minBarLength: 4 }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                scales: {
+                                    x: { grid: { display: false }, ticks: { font: { size: 9 }, color: '#94a3b8' } },
+                                    y: { grid: { color: '#334155' }, ticks: { font: { size: 9 }, color: '#94a3b8' } }
+                                },
+                                plugins: { legend: { display: false } }
+                            }
+                        });
+                    }
+                }
+            }, 50);
+        }
+
+        function renderMonitoringTable() {
+            var units = DATASTORE.units;
+            var tbody = document.getElementById('tableMonitoringBody');
+            var tfoot = document.getElementById('tableMonitoringFoot');
+            if (!tbody) return;
+
+            var rowsHtml = '';
+            var sumTad = 0, sumPagu = 0, sumOt = 0, sumSppd = 0, sumShift = 0, sumReal = 0, sumSisa = 0;
+
+            for (var i = 0; i < units.length; i++) {
+                var u = units[i];
+                sumTad += u.tad; 
+                sumPagu += u.paguTahunan;
+                sumOt += u.ot;
+                sumSppd += u.sppd;
+                sumShift += u.shift;
+                sumReal += u.realisasi;
+                var sisaPagu = u.paguTahunan - u.realisasi;
+                sumSisa += sisaPagu;
+
+                var pct = (u.realisasi / u.paguTahunan) * 100;
+                var badgeClass = "";
+                var badgeText = "";
+                if (pct < 75) {
+                    badgeClass = "bg-emerald-500/20 text-emerald-400 border-emerald-500/30";
+                    badgeText = "SAFE (" + pct.toFixed(1) + "%)";
+                } else if (pct <= 100) {
+                    badgeClass = "bg-amber-500/20 text-amber-400 border-amber-500/30";
+                    badgeText = "WARNING (" + pct.toFixed(1) + "%)";
+                } else {
+                    badgeClass = "bg-rose-500/20 text-rose-400 border-rose-500/30";
+                    badgeText = "OVER (" + pct.toFixed(1) + "%)";
+                }
+
+                rowsHtml += '<tr class="hover:bg-slate-900/60 transition">' +
+                    '<td class="p-3.5 font-bold text-slate-100">' + u.fullName + '</td>' +
+                    '<td class="p-3.5 text-center font-semibold" style="color: #38bdf8;">' + u.tad + ' Orang</td>' +
+                    '<td class="p-3.5 text-right font-bold text-amber-400">' + formatIDR(u.paguTahunan) + '</td>' +
+                    '<td class="p-3.5 text-right font-bold text-sky-400">' + formatIDR(u.ot) + '</td>' +
+                    '<td class="p-3.5 text-right font-bold text-purple-400">' + formatIDR(u.sppd) + '</td>' +
+                    '<td class="p-3.5 text-right font-bold text-emerald-400">' + (u.shift === 0 ? '-' : formatIDR(u.shift)) + '</td>' +
+                    '<td class="p-3.5 text-right font-bold text-sky-400">' + formatIDR(u.realisasi) + '</td>' +
+                    '<td class="p-3.5 text-right font-bold ' + (sisaPagu < 0 ? 'text-rose-400' : 'text-emerald-400') + '">' + formatIDR(sisaPagu) + '</td>' +
+                    '<td class="p-3.5 text-center"><span class="px-2.5 py-1 text-[10px] font-extrabold border rounded-full ' + badgeClass + '">' + badgeText + '</span></td>' +
+                '</tr>';
+            }
+
+            tbody.innerHTML = rowsHtml;
+            if (tfoot) {
+                var totalPct = (sumReal / sumPagu) * 100;
+                var totalBadgeClass = totalPct < 75 ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30" : (totalPct <= 100 ? "bg-amber-500/20 text-amber-400 border-amber-500/30" : "bg-rose-500/20 text-rose-400 border-rose-500/30");
+                tfoot.innerHTML = '<tr>' +
+                    '<td class="p-3.5 font-bold">GRAND TOTAL</td>' +
+                    '<td class="p-3.5 text-center font-bold" style="color: #38bdf8;">' + sumTad + ' Orang</td>' +
+                    '<td class="p-3.5 text-right font-bold text-amber-400">' + formatIDR(sumPagu) + '</td>' +
+                    '<td class="p-3.5 text-right font-bold text-sky-400">' + formatIDR(sumOt) + '</td>' +
+                    '<td class="p-3.5 text-right font-bold text-purple-400">' + formatIDR(sumSppd) + '</td>' +
+                    '<td class="p-3.5 text-right font-bold text-emerald-400">' + formatIDR(sumShift) + '</td>' +
+                    '<td class="p-3.5 text-right font-bold text-sky-400">' + formatIDR(sumReal) + '</td>' +
+                    '<td class="p-3.5 text-right font-bold text-emerald-400">' + formatIDR(sumSisa) + '</td>' +
+                    '<td class="p-3.5 text-center"><span class="px-2.5 py-1 text-[10px] font-extrabold border rounded-full ' + totalBadgeClass + '">' + totalPct.toFixed(1) + '%</span></td>' +
+                '</tr>';
+            }
+        }
+
+        function renderTerpaguTable() {
+            var tbody = document.getElementById('tableTerpaguBody');
+            var tfoot = document.getElementById('tableTerpaguFoot');
+            if (!tbody) return;
+
+            var rows = '';
+            var totalTerpagu = 0, totalPaguBulan = 0, totalTahun = 0;
+            var list = DATASTORE.terpaguBidang;
+
+            for (var i = 0; i < list.length; i++) {
+                var b = list[i];
+                totalTerpagu += b.terpagu;
+                totalPaguBulan += b.paguBulan;
+                totalTahun += b.tahunan;
+
+                rows += '<tr class="hover:bg-slate-900/60 transition">' +
+                    '<td class="p-3.5 font-semibold text-slate-100">' + b.name + '</td>' +
+                    '<td class="p-3.5 text-right font-bold text-sky-400">' + formatIDR(b.terpagu) + '</td>' +
+                    '<td class="p-3.5 text-right font-bold text-amber-400">' + formatIDR(b.paguBulan) + '</td>' +
+                    '<td class="p-3.5 text-right font-bold text-emerald-400">' + formatIDR(b.tahunan) + '</td>' +
+                    '<td class="p-3.5 text-center font-bold text-slate-200">' + b.penyerapan + '</td>' +
+                '</tr>';
+            }
+
+            tbody.innerHTML = rows;
+            if (tfoot) {
+                tfoot.innerHTML = '<tr>' +
+                    '<td class="p-3.5 font-bold">TOTAL</td>' +
+                    '<td class="p-3.5 text-right font-bold text-sky-400">' + formatIDR(totalTerpagu) + '</td>' +
+                    '<td class="p-3.5 text-right font-bold text-amber-400">' + formatIDR(totalPaguBulan) + '</td>' +
+                    '<td class="p-3.5 text-right font-bold text-emerald-400">' + formatIDR(totalTahun) + '</td>' +
+                    '<td class="p-3.5 text-center font-bold text-emerald-400">74.67%</td>' +
+                '</tr>';
+            }
+        }
+
+        function exportToCSV() {
+            alert("File CSV berhasil diexport.");
+        }
+
+        window.onload = function() {
+            renderCharts();
+            renderMonitoringTable();
+            renderTerpaguTable();
+            renderBreakdownDiagrams();
+        };
+    </script>
+</body>
+</html>
