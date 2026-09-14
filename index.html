@@ -337,10 +337,51 @@
 
         <!-- TAB 3: TREND PER BIDANG -->
         <div id="tab-trend-bidang" class="tab-content hidden space-y-6">
+            <!-- Diagram Tabung: Tren Bulanan Overtime, SPPD & Shifting per Bidang -->
             <div class="bi-card rounded-2xl p-5 shadow-sm space-y-4">
                 <div class="border-b border-slate-800 pb-3">
                     <h3 class="text-sm font-bold text-white flex items-center gap-2">
                         <i class="fa-solid fa-chart-column text-sky-400"></i>
+                        Diagram Tabung: Tren Bulanan Overtime, SPPD & Shifting per Bidang
+                    </h3>
+                    <p class="text-xs text-slate-400">Perbandingan pertumbuhan realisasi komponen varcost bulanan</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                    <!-- Trend Lembur -->
+                    <div class="bg-slate-950/40 border border-slate-800 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-sky-400 flex items-center gap-1.5"><i class="fa-solid fa-clock"></i> Trend Lembur (Overtime)</span>
+                        </div>
+                        <div class="relative h-[220px] w-full">
+                            <canvas id="trendOtChart"></canvas>
+                        </div>
+                    </div>
+                    <!-- Trend SPPD -->
+                    <div class="bg-slate-950/40 border border-slate-800 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-amber-400 flex items-center gap-1.5"><i class="fa-solid fa-plane"></i> Trend Biaya SPPD</span>
+                        </div>
+                        <div class="relative h-[220px] w-full">
+                            <canvas id="trendSppdChart"></canvas>
+                        </div>
+                    </div>
+                    <!-- Trend Shifting -->
+                    <div class="bg-slate-950/40 border border-slate-800 p-4 rounded-xl space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-emerald-400 flex items-center gap-1.5"><i class="fa-solid fa-shuffle"></i> Trend Premi Shifting</span>
+                        </div>
+                        <div class="relative h-[220px] w-full">
+                            <canvas id="trendShiftChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Breakdown Diagram Tabung per Sub Bidang / Unit Layanan -->
+            <div class="bi-card rounded-2xl p-5 shadow-sm space-y-4">
+                <div class="border-b border-slate-800 pb-3">
+                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-chart-column text-amber-400"></i>
                         BREAKDOWN DIAGRAM TABUNG PER SUB BIDANG / UNIT LAYANAN
                     </h3>
                     <p class="text-xs text-slate-400">Visualisasi rincian komparasi bulanan untuk masing-masing unit kerja</p>
@@ -392,6 +433,11 @@
             totalTAD: 27,
             
             monthsList: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep"],
+            
+            // Total monthly component trends across all units
+            globalOt: [1650000, 6317000, 8360000, 10957000, 14658000, 9432000, 12516000, 13866000, 5162000],
+            globalSppd: [2600000, 10680000, 13443000, 24594000, 29441000, 15168000, 18584000, 52219000, 6000000],
+            globalShift: [100000, 100000, 100000, 100000, 100000, 95000, 0, 0, 0],
 
             units: [
                 { 
@@ -478,7 +524,12 @@
 
             if (tabId === 'tab-ringkasan') setTimeout(renderCharts, 50);
             if (tabId === 'tab-monitoring') renderMonitoringTable();
-            if (tabId === 'tab-trend-bidang') setTimeout(renderBreakdownDiagrams, 50);
+            if (tabId === 'tab-trend-bidang') {
+                setTimeout(function() {
+                    renderGlobalTrendCharts();
+                    renderBreakdownDiagrams();
+                }, 50);
+            }
             if (tabId === 'tab-relokasi') renderTerpaguTable();
         }
 
@@ -487,6 +538,7 @@
             html.classList.toggle('light');
             html.classList.toggle('dark');
             renderCharts();
+            renderGlobalTrendCharts();
             renderBreakdownDiagrams();
         }
 
@@ -591,6 +643,97 @@
                                 }
                             }
                         }
+                    }
+                });
+            }
+        }
+
+        function renderGlobalTrendCharts() {
+            if (typeof Chart === 'undefined') return;
+
+            // Trend OT
+            var ctxOt = document.getElementById('trendOtChart');
+            if (ctxOt) {
+                if (chartInstances.trendOt) chartInstances.trendOt.destroy();
+                chartInstances.trendOt = new Chart(ctxOt, {
+                    type: 'bar',
+                    data: {
+                        labels: DATASTORE.monthsList,
+                        datasets: [{ data: DATASTORE.globalOt, backgroundColor: '#0284c7', borderRadius: 4 }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: { grid: { display: false }, ticks: { font: { size: 9 }, color: '#94a3b8' } },
+                            y: { 
+                                grid: { color: '#334155' }, 
+                                ticks: { 
+                                    font: { size: 9 }, 
+                                    color: '#94a3b8',
+                                    callback: function(value) { return value >= 1000000 ? (value / 1000000).toFixed(0) + 'jt' : value; }
+                                } 
+                            }
+                        },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+            }
+
+            // Trend SPPD
+            var ctxSppd = document.getElementById('trendSppdChart');
+            if (ctxSppd) {
+                if (chartInstances.trendSppd) chartInstances.trendSppd.destroy();
+                chartInstances.trendSppd = new Chart(ctxSppd, {
+                    type: 'bar',
+                    data: {
+                        labels: DATASTORE.monthsList,
+                        datasets: [{ data: DATASTORE.globalSppd, backgroundColor: '#f59e0b', borderRadius: 4 }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: { grid: { display: false }, ticks: { font: { size: 9 }, color: '#94a3b8' } },
+                            y: { 
+                                grid: { color: '#334155' }, 
+                                ticks: { 
+                                    font: { size: 9 }, 
+                                    color: '#94a3b8',
+                                    callback: function(value) { return value >= 1000000 ? (value / 1000000).toFixed(0) + 'jt' : value; }
+                                } 
+                            }
+                        },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+            }
+
+            // Trend Shift
+            var ctxShift = document.getElementById('trendShiftChart');
+            if (ctxShift) {
+                if (chartInstances.trendShift) chartInstances.trendShift.destroy();
+                chartInstances.trendShift = new Chart(ctxShift, {
+                    type: 'bar',
+                    data: {
+                        labels: DATASTORE.monthsList,
+                        datasets: [{ data: DATASTORE.globalShift, backgroundColor: '#10b981', borderRadius: 4 }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: { grid: { display: false }, ticks: { font: { size: 9 }, color: '#94a3b8' } },
+                            y: { 
+                                grid: { color: '#334155' }, 
+                                ticks: { 
+                                    font: { size: 9 }, 
+                                    color: '#94a3b8',
+                                    callback: function(value) { return value >= 1000000 ? (value / 1000000).toFixed(0) + 'jt' : value; }
+                                } 
+                            }
+                        },
+                        plugins: { legend: { display: false } }
                     }
                 });
             }
@@ -807,11 +950,11 @@
             renderCharts();
             renderMonitoringTable();
             renderTerpaguTable();
-            renderBreakdownDiagrams(); // Pastikan ter-generate saat load
         };
 
         window.onresize = function() {
             renderCharts();
+            renderGlobalTrendCharts();
         };
     </script>
 </body>
