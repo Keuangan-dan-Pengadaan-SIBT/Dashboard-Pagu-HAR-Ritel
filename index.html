@@ -346,7 +346,7 @@
                     </h3>
                     <p class="text-xs text-slate-400">Visualisasi rincian komparasi bulanan untuk masing-masing unit kerja HAR Ritel</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pt-2" id="breakdownCardsGrid"></div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2" id="breakdownCardsGrid"></div>
             </div>
         </div>
 
@@ -407,18 +407,6 @@
                     monthlyVals: [0, 880000, 4531000, 7694000, 19241000, 8268000, 11284000, 12086000, 2073000, 0, 0, 0]
                 },
                 { 
-                    id: "RITEL", 
-                    shortName: "PENJUALAN RITEL & ADMIN", 
-                    fullName: "SUB BIDANG PENJUALAN RITEL DAN ADMINISTRASI SULAWESI DAN IBT", 
-                    tad: 2, 
-                    paguTahunan: 4056000, 
-                    realisasi: 4056000,
-                    ot: 3531000,
-                    sppd: 525000,
-                    shift: 0,
-                    monthlyVals: [0, 225000, 720000, 511000, 609000, 0, 709000, 1282000, 0, 0, 0, 0]
-                },
-                { 
                     id: "PALU", 
                     shortName: "PALU, KENDARI & MAMUJU", 
                     fullName: "UNIT LAYANAN PALU, KENDARI DAN MAMUJU", 
@@ -436,9 +424,9 @@
                     fullName: "UNIT LAYANAN SULUTENGGO", 
                     tad: 7, 
                     paguTahunan: 81038526, 
-                    realisasi: 33228000,
-                    ot: 15378000,
-                    sppd: 17850000,
+                    realisasi: 37284000,
+                    ot: 18909000,
+                    sppd: 18375000,
                     shift: 0,
                     monthlyVals: [3083000, 3313000, 5560000, 5793000, 2448000, 3459000, 4718000, 7160000, 1750000, 0, 0, 0]
                 }
@@ -461,9 +449,8 @@
 
             terpaguBidang: [
                 { name: "SUB BIDANG OPERASI, PEMELIHARAAN DAN ASET SULAWESI DAN IBT", terpagu: 8682699, paguBulan: 723558, tahunan: 104192391, penyerapan: "63.40%" },
-                { name: "SUB BIDANG PENJUALAN RITEL DAN ADMINISTRASI SULAWESI DAN IBT", terpagu: 4056000, paguBulan: 338000, tahunan: 4056000, penyerapan: "100.00%" },
                 { name: "UNIT LAYANAN PALU, KENDARI DAN MAMUJU", terpagu: 138101938, paguBulan: 11508495, tahunan: 127346256, penyerapan: "102.12%" },
-                { name: "UNIT LAYANAN SULUTENGGO", terpagu: 38500000, paguBulan: 3208333, tahunan: 81038526, penyerapan: "41.00%" }
+                { name: "UNIT LAYANAN SULUTENGGO", terpagu: 38500000, paguBulan: 3208333, tahunan: 81038526, penyerapan: "46.01%" }
             ]
         };
 
@@ -586,7 +573,7 @@
                         labels: units.map(function(u) { return u.shortName; }),
                         datasets: [{ 
                             data: units.map(function(u) { return u.realisasi; }), 
-                            backgroundColor: ['#38bdf8', '#34d399', '#f59e0b', '#a78bfa'], 
+                            backgroundColor: ['#38bdf8', '#f59e0b', '#10b981'], 
                             borderRadius: 6 
                         }]
                     },
