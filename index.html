@@ -49,6 +49,17 @@
 </head>
 <body class="h-full text-slate-100 bg-slate-950 font-sans flex flex-col transition-colors duration-200">
 
+    <!-- Toast Notification System -->
+    <div id="toast" class="fixed top-5 right-5 z-50 transform translate-y-[-150%] opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="flex items-center gap-3 bg-slate-900 border border-slate-700 text-slate-100 px-4 py-3 rounded-xl shadow-2xl">
+            <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+            <div>
+                <h4 id="toastTitle" class="text-xs font-bold">Informasi</h4>
+                <p id="toastMessage" class="text-xs text-slate-300">Tindakan berhasil diselesaikan.</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Header Navigation -->
     <header class="no-print sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 shadow-md">
         <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
@@ -118,12 +129,12 @@
 
     <main class="flex-1 max-w-[1600px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-        <!-- KPI Scorecard Cards (Sesuai Gambar Master Baru: 27 Orang TAD) -->
+        <!-- 5 KPI Scorecard Cards Sesuai Permintaan -->
         <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             <div class="bi-card rounded-2xl p-4 relative overflow-hidden">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Anggaran Terkontrak</p>
+                        <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Anggaran PO</p>
                         <h3 class="text-xl font-extrabold text-white mt-1">Rp 312.577.174</h3>
                     </div>
                     <div class="p-2.5 bg-blue-500/10 text-blue-400 rounded-xl border border-blue-500/20">
@@ -139,7 +150,7 @@
             <div class="bi-card rounded-2xl p-4 relative overflow-hidden">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Pagu Perbulan</p>
+                        <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Alokasi Pagu / Bulan</p>
                         <h3 class="text-xl font-extrabold text-white mt-1">Rp 26.048.098</h3>
                     </div>
                     <div class="p-2.5 bg-sky-500/10 text-sky-400 rounded-xl border border-sky-500/20">
@@ -155,39 +166,7 @@
             <div class="bi-card rounded-2xl p-4 relative overflow-hidden">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Sisa Anggaran Terkontrak (%)</p>
-                        <h3 class="text-xl font-extrabold text-emerald-400 mt-1">25%</h3>
-                    </div>
-                    <div class="p-2.5 bg-emerald-500/10 text-emerald-400 rounded-xl border border-emerald-500/20">
-                        <i class="fa-solid fa-percent text-lg"></i>
-                    </div>
-                </div>
-                <div class="mt-3 flex items-center justify-between text-xs text-slate-400 border-t border-slate-800 pt-2">
-                    <span>Sisa Pagu Tersedia</span>
-                    <span class="text-emerald-400 font-bold">Aman</span>
-                </div>
-            </div>
-
-            <div class="bi-card rounded-2xl p-4 relative overflow-hidden">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Sisa Anggaran Terkontrak</p>
-                        <h3 class="text-xl font-extrabold text-white mt-1">Rp 79.192.174</h3>
-                    </div>
-                    <div class="p-2.5 bg-blue-500/10 text-blue-400 rounded-xl border border-blue-500/20">
-                        <i class="fa-solid fa-wallet text-lg"></i>
-                    </div>
-                </div>
-                <div class="mt-3 flex items-center justify-between text-xs text-slate-400 border-t border-slate-800 pt-2">
-                    <span>Sisa Pagu Tersedia</span>
-                    <span class="text-emerald-400 font-bold">25%</span>
-                </div>
-            </div>
-
-            <div class="bi-card rounded-2xl p-4 relative overflow-hidden">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Realisasi</p>
+                        <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Realisasi Varcost (YTD)</p>
                         <h3 class="text-xl font-extrabold text-amber-400 mt-1">Rp 233.385.000</h3>
                     </div>
                     <div class="p-2.5 bg-amber-500/10 text-amber-400 rounded-xl border border-amber-500/20">
@@ -195,8 +174,40 @@
                     </div>
                 </div>
                 <div class="mt-3 flex items-center justify-between text-xs text-slate-400 border-t border-slate-800 pt-2">
-                    <span>NO PO</span>
-                    <span class="text-sky-400 font-bold">4500027303</span>
+                    <span>% Penyerapan</span>
+                    <span class="text-amber-400 font-bold">74.67%</span>
+                </div>
+            </div>
+
+            <div class="bi-card rounded-2xl p-4 relative overflow-hidden">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Anggaran Terpagu</p>
+                        <h3 class="text-xl font-extrabold text-sky-400 mt-1">Rp 233.385.000</h3>
+                    </div>
+                    <div class="p-2.5 bg-sky-500/10 text-sky-400 rounded-xl border border-sky-500/20">
+                        <i class="fa-solid fa-sack-dollar text-lg"></i>
+                    </div>
+                </div>
+                <div class="mt-3 flex items-center justify-between text-xs text-slate-400 border-t border-slate-800 pt-2">
+                    <span>Sheet Top Up</span>
+                    <span class="text-emerald-400 font-bold">4 Bidang Aktif</span>
+                </div>
+            </div>
+
+            <div class="bi-card rounded-2xl p-4 relative overflow-hidden">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Sisa Anggaran PO</p>
+                        <h3 class="text-xl font-extrabold text-emerald-400 mt-1">Rp 79.192.174</h3>
+                    </div>
+                    <div class="p-2.5 bg-emerald-500/10 text-emerald-400 rounded-xl border border-emerald-500/20">
+                        <i class="fa-solid fa-wallet text-lg"></i>
+                    </div>
+                </div>
+                <div class="mt-3 flex items-center justify-between text-xs text-slate-400 border-t border-slate-800 pt-2">
+                    <span>Sisa Pagu Tersedia</span>
+                    <span class="text-emerald-400 font-bold">25.33%</span>
                 </div>
             </div>
         </section>
@@ -206,37 +217,100 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Trend Chart -->
                 <div class="lg:col-span-2 bi-card rounded-2xl p-5 shadow-sm space-y-4">
-                    <div class="border-b border-slate-800 pb-3">
-                        <h3 class="text-sm font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-chart-column text-sky-400"></i>
-                            Trend Realisasi Varcost vs Pagu Perbulan (Jan – Sep 2026)
-                        </h3>
-                        <p class="text-xs text-slate-400">Garis merah mengindikasikan batas pagu perbulan (Rp 26,05 Juta).</p>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                        <div>
+                            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-chart-column text-sky-400"></i>
+                                Trend Realisasi Varcost vs Pagu Perbulan (Jan – Sep 2026)
+                            </h3>
+                            <p class="text-xs text-slate-400">Garis merah mengindikasikan batas pagu perbulan (Rp 26,05 Juta). Batang merah = melebihi pagu.</p>
+                        </div>
                     </div>
                     <div class="relative h-72 w-full">
                         <canvas id="trendChart"></canvas>
                     </div>
                 </div>
 
-                <!-- Donut Chart Komponen Varcost -->
+                <!-- Donut Chart Komponen Varcost dengan Nilai Rupiah -->
                 <div class="bi-card rounded-2xl p-5 shadow-sm space-y-4">
                     <div class="border-b border-slate-800 pb-3">
                         <h3 class="text-sm font-bold text-white flex items-center gap-2">
                             <i class="fa-solid fa-chart-pie text-emerald-400"></i>
                             Proporsi Komponen Varcost
                         </h3>
-                        <p class="text-xs text-slate-400">Distribusi pengeluaran</p>
+                        <p class="text-xs text-slate-400">Distribusi pengeluaran OT, SPPD & Shift</p>
                     </div>
 
                     <div class="relative h-56 w-full flex items-center justify-center">
                         <canvas id="componentChart"></canvas>
                     </div>
 
-                    <div class="grid grid-cols-3 gap-2 text-center text-xs border-t border-slate-800 pt-3">
-                        <div><span class="inline-block w-2.5 h-2.5 rounded-full bg-sky-500 mr-1"></span><span class="font-bold text-slate-300">OT: 15.0%</span></div>
-                        <div><span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-500 mr-1"></span><span class="font-bold text-slate-300">SPPD: 82.0%</span></div>
-                        <div><span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 mr-1"></span><span class="font-bold text-slate-300">Shift: 3.0%</span></div>
+                    <div id="componentLegend" class="grid grid-cols-3 gap-1 text-center text-xs border-t border-slate-800 pt-3">
+                        <div>
+                            <span class="inline-block w-2.5 h-2.5 rounded-full bg-sky-500 mr-1"></span>
+                            <span class="font-bold text-slate-300">OT: 40.2%</span>
+                            <div class="text-[10px] text-amber-400 font-semibold mt-0.5">Rp 93.91 Jt</div>
+                        </div>
+                        <div>
+                            <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-500 mr-1"></span>
+                            <span class="font-bold text-slate-300">SPPD: 59.5%</span>
+                            <div class="text-[10px] text-amber-400 font-semibold mt-0.5">Rp 138.78 Jt</div>
+                        </div>
+                        <div>
+                            <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 mr-1"></span>
+                            <span class="font-bold text-slate-300">Shift: 0.3%</span>
+                            <div class="text-[10px] text-amber-400 font-semibold mt-0.5">Rp 0.70 Jt</div>
+                        </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Bar Chart Unit (Unit dengan Realisasi 0 dihilangkan) -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 bi-card rounded-2xl p-5 shadow-sm space-y-4">
+                    <div class="border-b border-slate-800 pb-3">
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-ranking-star text-amber-400"></i>
+                            Realisasi Varcost per Sub Bidang & Unit Layanan (HAR Ritel)
+                        </h3>
+                        <p class="text-xs text-slate-400">Urutan unit kerja berdasarkan total realisasi anggaran (YTD) - Unit nihil disembunyikan</p>
+                    </div>
+                    <div class="relative h-72 w-full">
+                        <canvas id="unitBarChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bi-card rounded-2xl p-5 shadow-sm space-y-4 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2 border-b border-slate-800 pb-3">
+                            <i class="fa-solid fa-lightbulb text-yellow-400"></i>
+                            Executive Highlights & Alert
+                        </h3>
+                        
+                        <div class="mt-4 space-y-3 text-xs">
+                            <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-200">
+                                <div class="font-bold flex items-center gap-1.5 text-amber-400 mb-1">
+                                    <i class="fa-solid fa-triangle-exclamation"></i> Bulan Melebihi Pagu Perbulan:
+                                </div>
+                                <p class="text-slate-300">
+                                    Apr-26 (35.65 Jt), Mei-26 (41.45 Jt), Jul-26 (31.69 Jt), Agu-26 (44.17 Jt)
+                                </p>
+                            </div>
+
+                            <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-200">
+                                <div class="font-bold flex items-center gap-1.5 text-emerald-400 mb-1">
+                                    <i class="fa-solid fa-circle-check"></i> Status Penyerapan Kontrak:
+                                </div>
+                                <p class="text-slate-300">
+                                    Total Realisasi YTD: <strong>Rp 233.385.000</strong> | Total Personel: <strong>27 Orang TAD</strong>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="switchTab('tab-relokasi')" class="w-full mt-4 py-2.5 px-4 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-arrows-rotate"></i> Buka Rincian Sheet Top Up Non PO
+                    </button>
                 </div>
             </div>
         </div>
@@ -244,18 +318,32 @@
         <!-- TAB 2: MATRIKS UNIT & LIMIT -->
         <div id="tab-monitoring" class="tab-content hidden space-y-6">
             <div class="bi-card rounded-2xl p-5 shadow-sm space-y-4">
-                <h3 class="text-sm font-bold text-white">Matriks Detail Penyerapan Pagu Non PO HAR Ritel per Unit Kerja</h3>
+                <div class="border-b border-slate-800 pb-3">
+                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-table-list text-sky-400"></i>
+                        Matriks Detail Penyerapan Pagu Non PO per Unit Kerja
+                    </h3>
+                    <p class="text-xs text-slate-400">Sesuai data master Realisasi Non-PO (PO #4500027303).</p>
+                </div>
+
                 <div class="overflow-x-auto rounded-xl border border-slate-800">
                     <table class="w-full text-left text-xs text-slate-200">
-                        <thead class="bg-slate-900 text-slate-400 font-bold uppercase tracking-wider text-[10px]">
+                        <thead class="bg-slate-900 text-slate-400 font-bold uppercase tracking-wider text-[10px] border-b border-slate-800">
                             <tr>
                                 <th class="p-3.5">Unit Kerja / Sub Bidang</th>
                                 <th class="p-3.5 text-center">QTY TAD</th>
-                                <th class="p-3.5 text-right font-bold text-amber-400">Anggaran / Pagu</th>
+                                <th class="p-3.5 text-right font-bold text-amber-400">Pagu Tahunan (Rp)</th>
+                                <th class="p-3.5 text-right font-semibold text-slate-300">Lembur (OT)</th>
+                                <th class="p-3.5 text-right font-semibold text-slate-300">SPPD</th>
+                                <th class="p-3.5 text-right font-semibold text-slate-300">Shifting</th>
                                 <th class="p-3.5 text-right font-bold text-sky-400">Total Realisasi</th>
+                                <th class="p-3.5 text-right font-semibold text-emerald-400">Sisa Pagu (Rp)</th>
+                                <th class="p-3.5 text-right font-semibold text-sky-300">% Realisasi</th>
+                                <th class="p-3.5 text-center font-bold">STATUS PENYERAPAN</th>
                             </tr>
                         </thead>
                         <tbody id="tableMonitoringBody" class="divide-y divide-slate-800/60 bg-slate-950/40"></tbody>
+                        <tfoot id="tableMonitoringFoot" class="bg-slate-900 font-bold text-white border-t-2 border-slate-700"></tfoot>
                     </table>
                 </div>
             </div>
@@ -264,7 +352,13 @@
         <!-- TAB 3: TREND PER BIDANG -->
         <div id="tab-trend-bidang" class="tab-content hidden space-y-6">
             <div class="bi-card rounded-2xl p-5 shadow-sm space-y-4">
-                <h3 class="text-sm font-bold text-white">Breakdown Diagram per Sub Bidang</h3>
+                <div class="border-b border-slate-800 pb-3">
+                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-chart-column text-sky-400"></i>
+                        BREAKDOWN DIAGRAM TABUNG PER SUB BIDANG / UNIT LAYANAN
+                    </h3>
+                    <p class="text-xs text-slate-400">Visualisasi rincian komparasi bulanan untuk unit kerja HAR Ritel yang berelalisasi</p>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2" id="breakdownCardsGrid"></div>
             </div>
         </div>
@@ -272,17 +366,27 @@
         <!-- TAB 4: TOP-UP & TERPAGU -->
         <div id="tab-relokasi" class="tab-content hidden space-y-6">
             <div class="bi-card rounded-2xl p-5 shadow-sm space-y-4">
-                <h3 class="text-sm font-bold text-white">Total Anggaran Terpagu Masing-Masing Bidang HAR Ritel</h3>
+                <div class="border-b border-slate-800 pb-3">
+                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-sack-dollar text-amber-400"></i>
+                        Total Anggaran Terpagu Masing-Masing Bidang HAR Ritel (Sheet Top Up Non PO)
+                    </h3>
+                    <p class="text-xs text-slate-400">Sesuai data master Realisasi Non-PO (PO #4500027303)</p>
+                </div>
+
                 <div class="overflow-x-auto rounded-xl border border-slate-800">
                     <table class="w-full text-left text-xs text-slate-200">
-                        <thead class="bg-slate-900 text-slate-400 font-bold uppercase tracking-wider text-[10px]">
+                        <thead class="bg-slate-900 text-slate-400 font-bold uppercase tracking-wider text-[10px] border-b border-slate-800">
                             <tr>
                                 <th class="p-3.5">BIDANG</th>
                                 <th class="p-3.5 text-right font-bold text-sky-400">ANGGARAN TERPAGU</th>
                                 <th class="p-3.5 text-right font-bold text-amber-400">PAGU / BULAN</th>
+                                <th class="p-3.5 text-right font-bold text-emerald-400">PAGU TAHUNAN</th>
+                                <th class="p-3.5 text-center">PENYERAPAN</th>
                             </tr>
                         </thead>
                         <tbody id="tableTerpaguBody" class="divide-y divide-slate-800/60 bg-slate-950/40"></tbody>
+                        <tfoot id="tableTerpaguFoot" class="bg-slate-900 font-bold text-white border-t-2 border-slate-700"></tfoot>
                     </table>
                 </div>
             </div>
@@ -302,125 +406,40 @@
             
             monthsList: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep"],
 
+            // Hanya unit yang memiliki realisasi > 0 (Maluku & Papua yang bernilai 0 disembunyikan sesuai permintaan)
             units: [
-                { id: "RITEL", shortName: "PENJUALAN RITEL & ADMIN", fullName: "SUB BIDANG PENJUALAN RITEL DAN ADMINISTRASI SULAWESI DAN IBT", tad: 2, paguTahunan: 4056000, realisasi: 4056000, monthlyVals: [0, 225000, 720000, 511000, 609000, 0, 709000, 1282000, 0] },
-                { id: "OPERASI", shortName: "OPERASI & PEMELIHARAAN", fullName: "SUB BIDANG OPERASI, PEMELIHARAAN DAN ASET SULAWESI DAN IBT", tad: 10, paguTahunan: 66057000, realisasi: 66057000, monthlyVals: [0, 880000, 4531000, 7694000, 19241000, 8268000, 11284000, 12086000, 2073000] },
-                { id: "MALUKU", shortName: "MALUKU UTARA", fullName: "UNIT LAYANAN MALUKU DAN MALUKU UTARA", tad: 2, paguTahunan: 0, realisasi: 0, monthlyVals: [0, 0, 0, 0, 0, 0, 0, 0, 0] },
-                { id: "PALU", shortName: "PALU, KENDARI & MAMUJU", fullName: "UNIT LAYANAN PALU, KENDARI DAN MAMUJU", tad: 8, paguTahunan: 130044000, realisasi: 130044000, monthlyVals: [4468000, 14204000, 11812000, 22164000, 19758000, 13703000, 15686000, 24924000, 3325000] },
-                { id: "PAPUA", shortName: "PAPUA", fullName: "UNIT LAYANAN PAPUA DAN PAPUA BARAT", tad: 2, paguTahunan: 0, realisasi: 0, monthlyVals: [0, 0, 0, 0, 0, 0, 0, 0, 0] },
-                { id: "SULUTENGGO", shortName: "SULUTENGGO", fullName: "UNIT LAYANAN SULUTENGGO", tad: 3, paguTahunan: 33228000, realisasi: 33228000, monthlyVals: [3083000, 3088000, 4840000, 5282000, 1839000, 3459000, 4009000, 5878000, 1750000] }
-            ],
-
-            monthlyTrend: [
-                { id: "Jan-26", label: "Jan", total: 7551000, pagu: 26048098 },
-                { id: "Feb-26", label: "Feb", total: 18397000, pagu: 26048098 },
-                { id: "Mar-26", label: "Mar", total: 21903000, pagu: 26048098 },
-                { id: "Apr-26", label: "Apr", total: 35651000, pagu: 26048098 },
-                { id: "Mei-26", label: "Mei", total: 41447000, pagu: 26048098 },
-                { id: "Jun-26", label: "Jun", total: 25430000, pagu: 26048098 },
-                { id: "Jul-26", label: "Jul", total: 31688000, pagu: 26048098 },
-                { id: "Agu-26", label: "Agu", total: 44170000, pagu: 26048098 },
-                { id: "Sep-26", label: "Sep", total: 7148000, pagu: 26048098 }
-            ]
-        };
-
-        var chartInstances = {};
-
-        function formatIDR(val) { return "Rp " + Math.round(val || 0).toLocaleString("id-ID"); }
-
-        function switchTab(tabId) {
-            var tabs = document.querySelectorAll('.tab-content');
-            for (var i = 0; i < tabs.length; i++) tabs[i].classList.add('hidden');
-            document.getElementById(tabId).classList.remove('hidden');
-
-            var buttons = document.querySelectorAll('.tab-btn');
-            for (var j = 0; j < buttons.length; j++) {
-                buttons[j].classList.remove('bg-sky-600', 'text-white', 'font-semibold');
-                buttons[j].classList.add('text-slate-400');
-            }
-            document.getElementById('btn-' + tabId).classList.add('bg-sky-600', 'text-white', 'font-semibold');
-
-            if (tabId === 'tab-ringkasan') setTimeout(renderCharts, 50);
-            if (tabId === 'tab-monitoring') renderMonitoringTable();
-            if (tabId === 'tab-trend-bidang') setTimeout(renderBreakdownDiagrams, 50);
-            if (tabId === 'tab-relokasi') renderTerpaguTable();
-        }
-
-        function toggleTheme() {
-            document.documentElement.classList.toggle('light');
-            document.documentElement.classList.toggle('dark');
-            renderCharts();
-        }
-
-        function renderCharts() {
-            if (typeof Chart === 'undefined') return;
-            var months = DATASTORE.monthlyTrend;
-            var units = DATASTORE.units;
-
-            if (chartInstances.trend) chartInstances.trend.destroy();
-            chartInstances.trend = new Chart(document.getElementById('trendChart'), {
-                type: 'bar',
-                data: {
-                    labels: months.map(m => m.label),
-                    datasets: [
-                        { type: 'line', label: 'Batas Pagu Perbulan', data: months.map(m => m.pagu), borderColor: '#f43f5e', borderWidth: 2, borderDash: [5,5], pointRadius: 0, order: 1 },
-                        { type: 'bar', label: 'Realisasi', data: months.map(m => m.total), backgroundColor: '#0284c7', borderRadius: 6, order: 2 }
-                    ]
+                { 
+                    id: "RITEL", 
+                    shortName: "PENJUALAN RITEL & ADMIN", 
+                    fullName: "SUB BIDANG PENJUALAN RITEL DAN ADMINISTRASI SULAWESI DAN IBT", 
+                    tad: 2, 
+                    paguTahunan: 4056000, 
+                    realisasi: 4056000,
+                    ot: 1200000,
+                    sppd: 2756000,
+                    shift: 100000,
+                    monthlyVals: [0, 225000, 720000, 511000, 609000, 0, 709000, 1282000, 0]
                 },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-            });
-
-            if (chartInstances.comp) chartInstances.comp.destroy();
-            chartInstances.comp = new Chart(document.getElementById('componentChart'), {
-                type: 'doughnut',
-                data: { labels: ['OT', 'SPPD', 'Shift'], datasets: [{ data: [35000000, 191385000, 7000000], backgroundColor: ['#0284c7', '#f59e0b', '#10b981'], borderWidth: 0 }] },
-                options: { responsive: true, maintainAspectRatio: false, cutout: '72%', plugins: { legend: { display: false } } }
-            });
-
-            if (chartInstances.unitBar) chartInstances.unitBar.destroy();
-            chartInstances.unitBar = new Chart(document.getElementById('unitBarChart'), {
-                type: 'bar',
-                data: { labels: units.map(u => u.shortName), datasets: [{ data: units.map(u => u.realisasi), backgroundColor: '#38bdf8', borderRadius: 6 }] },
-                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-            });
-        }
-
-        function renderMonitoringTable() {
-            var tbody = document.getElementById('tableMonitoringBody');
-            if (!tbody) return;
-            var html = '';
-            DATASTORE.units.forEach(u => {
-                html += `<tr class="hover:bg-slate-900/60"><td class="p-3.5 font-bold">${u.fullName}</td><td class="p-3.5 text-center">${u.tad} Orang</td><td class="p-3.5 text-right font-bold text-amber-400">${formatIDR(u.paguTahunan)}</td><td class="p-3.5 text-right font-bold text-sky-400">${formatIDR(u.realisasi)}</td></tr>`;
-            });
-            tbody.innerHTML = html;
-        }
-
-        function renderTerpaguTable() {
-            var tbody = document.getElementById('tableTerpaguBody');
-            if (!tbody) return;
-            var html = '';
-            DATASTORE.units.forEach(u => {
-                html += `<tr class="hover:bg-slate-900/60"><td class="p-3.5 font-semibold">${u.fullName}</td><td class="p-3.5 text-right font-bold text-sky-400">${formatIDR(u.paguTahunan)}</td><td class="p-3.5 text-right font-bold text-amber-400">${formatIDR(u.paguTahunan / 12)}</td></tr>`;
-            });
-            tbody.innerHTML = html;
-        }
-
-        function renderBreakdownDiagrams() {
-            var grid = document.getElementById('breakdownCardsGrid');
-            if (!grid) return;
-            var html = '';
-            DATASTORE.units.forEach(u => {
-                html += `<div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3"><h4 class="text-xs font-black uppercase text-white">${u.shortName}</h4><p class="text-[11px] text-slate-400">Total: <strong class="text-amber-400">${formatIDR(u.realisasi)}</strong></p></div>`;
-            });
-            grid.innerHTML = html;
-        }
-
-        function exportToCSV() { alert("Export Selesai"); }
-
-        window.onload = function() {
-            renderCharts();
-            renderMonitoringTable();
-        };
-    </script>
-</body>
-</html>
+                { 
+                    id: "OPERASI", 
+                    shortName: "OPERASI & PEMELIHARAAN", 
+                    fullName: "SUB BIDANG OPERASI, PEMELIHARAAN DAN ASET SULAWESI DAN IBT", 
+                    tad: 10, 
+                    paguTahunan: 66057000, 
+                    realisasi: 66057000,
+                    ot: 28000000,
+                    sppd: 37700000,
+                    shift: 357000,
+                    monthlyVals: [0, 880000, 4531000, 7694000, 19241000, 8268000, 11284000, 12086000, 2073000]
+                },
+                { 
+                    id: "PALU", 
+                    shortName: "PALU, KENDARI & MAMUJU", 
+                    fullName: "UNIT LAYANAN PALU, KENDARI DAN MAMUJU", 
+                    tad: 8, 
+                    paguTahunan: 130044000, 
+                    realisasi: 130044000,
+                    ot: 54100000,
+                    sppd: 75756000,
+                    shift: 188000,
+                    monthlyVals: [4468000, 14204000, 11812
