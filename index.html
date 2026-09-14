@@ -341,7 +341,7 @@
                 <div class="border-b border-slate-800 pb-3">
                     <h3 class="text-sm font-bold text-white flex items-center gap-2">
                         <i class="fa-solid fa-chart-column text-sky-400"></i>
-                        BREAKDOWN DIAGRAM PER UNIT KERJA HAR RITEL
+                        BREAKDOWN DIAGRAM TABUNG PER SUB BIDANG / UNIT LAYANAN
                     </h3>
                     <p class="text-xs text-slate-400">Visualisasi rincian komparasi bulanan untuk masing-masing unit kerja</p>
                 </div>
@@ -405,7 +405,9 @@
                     ot: 41912000,
                     sppd: 23450000,
                     shift: 695000,
-                    monthlyVals: [1500000, 4080000, 5231000, 14194000, 27041000, 12768000, 16884000, 20086000, 6273000]
+                    monthlyOt: [800000, 2000000, 3000000, 5000000, 8000000, 5000000, 7000000, 8112000, 3000000],
+                    monthlySppd: [600000, 1980000, 2131000, 9094000, 18941000, 7668000, 9884000, 11974000, 3273000],
+                    monthlyShift: [100000, 100000, 100000, 100000, 100000, 95000, 0, 0, 0]
                 },
                 { 
                     id: "PALU_KENDARI_MAMUJU", 
@@ -418,7 +420,9 @@
                     ot: 33094000,
                     sppd: 96950000,
                     shift: 0,
-                    monthlyVals: [2200000, 9604000, 10812000, 16164000, 11758000, 8703000, 10686000, 18924000, 3255000]
+                    monthlyOt: [500000, 2104000, 2500000, 3164000, 3758000, 2703000, 3686000, 4179000, 1500000],
+                    monthlySppd: [1700000, 7500000, 8312000, 13000000, 8000000, 6000000, 7000000, 38745000, 1755000],
+                    monthlyShift: [0, 0, 0, 0, 0, 0, 0, 0, 0]
                 },
                 { 
                     id: "SULUTENGGO", 
@@ -431,7 +435,9 @@
                     ot: 18909000,
                     sppd: 18375000,
                     shift: 0,
-                    monthlyVals: [650000, 4713000, 5860000, 5293000, 5400000, 3229000, 3530000, 3075000, 1634000]
+                    monthlyOt: [350000, 2213000, 2860000, 2793000, 2900000, 1729000, 1830000, 1575000, 662000],
+                    monthlySppd: [300000, 2500000, 3000000, 2500000, 2500000, 1500000, 1700000, 1500000, 972000],
+                    monthlyShift: [0, 0, 0, 0, 0, 0, 0, 0, 0]
                 }
             ],
 
@@ -600,22 +606,32 @@
                 var u = units[i];
                 var chartId = 'breakdownChart_' + u.id;
                 
-                // Styling QTY color based on tad threshold
-                var tadColorClass = u.tad >= 10 ? "bg-amber-500/20 text-amber-300 border-amber-500/30" : (u.tad >= 8 ? "bg-sky-500/20 text-sky-300 border-sky-500/30" : "bg-emerald-500/20 text-emerald-300 border-emerald-500/30");
+                var tadColorClass = "bg-sky-500/20 text-sky-300 border-sky-500/30";
 
                 html += '<div class="bi-card rounded-2xl p-4 flex flex-col justify-between space-y-4 shadow-md">' +
                     '<div class="flex items-start justify-between">' +
                         '<div>' +
-                            '<h4 class="text-xs font-black uppercase text-white tracking-wider">' + u.unitName + '</h4>' +
-                            '<p class="text-[11px] text-slate-400 mt-0.5">Realisasi: <strong class="text-amber-400">' + formatIDR(u.realisasi) + '</strong></p>' +
+                            '<h4 class="text-xs font-black uppercase text-white tracking-wider truncate max-w-[180px]" title="' + u.unitName + '">' + u.unitName + '</h4>' +
+                            '<p class="text-[11px] text-slate-400 mt-0.5">Total YTD: <strong class="text-amber-400">' + formatIDR(u.realisasi) + '</strong></p>' +
                         '</div>' +
-                        '<span class="px-2.5 py-1 text-[10px] font-extrabold ' + tadColorClass + ' border rounded-lg">' + u.tad + ' Orang</span>' +
+                        '<span class="px-2.5 py-1 text-[10px] font-extrabold ' + tadColorClass + ' border rounded-lg shrink-0">' + u.tad + ' TAD</span>' +
                     '</div>' +
-                    '<div class="relative h-[180px] w-full">' +
+                    '<div class="relative h-[200px] w-full">' +
                         '<canvas id="' + chartId + '"></canvas>' +
                     '</div>' +
-                    '<div class="text-center text-[10px] border-t border-slate-800 pt-3 bg-slate-950/40 rounded-xl p-2">' +
-                        '<div class="text-slate-400 font-bold">Pagu Pertahun</div><div class="font-extrabold text-sky-400 mt-0.5">' + formatIDR(u.paguTahunan) + '</div>' +
+                    '<div class="grid grid-cols-3 gap-1.5 text-center pt-2 border-t border-slate-800">' +
+                        '<div class="bg-slate-950/50 p-2 rounded-xl border border-slate-800/80">' +
+                            '<div class="text-[9px] font-bold text-slate-400 uppercase">OT</div>' +
+                            '<div class="text-[10px] font-extrabold text-sky-400 mt-0.5 truncate">' + formatIDR(u.ot) + '</div>' +
+                        '</div>' +
+                        '<div class="bg-slate-950/50 p-2 rounded-xl border border-slate-800/80">' +
+                            '<div class="text-[9px] font-bold text-slate-400 uppercase">SPPD</div>' +
+                            '<div class="text-[10px] font-extrabold text-amber-400 mt-0.5 truncate">' + formatIDR(u.sppd) + '</div>' +
+                        '</div>' +
+                        '<div class="bg-slate-950/50 p-2 rounded-xl border border-slate-800/80">' +
+                            '<div class="text-[9px] font-bold text-slate-400 uppercase">Shift</div>' +
+                            '<div class="text-[10px] font-extrabold text-emerald-400 mt-0.5 truncate">' + formatIDR(u.shift) + '</div>' +
+                        '</div>' +
                     '</div>' +
                 '</div>';
             }
@@ -628,20 +644,36 @@
                     var ctx = document.getElementById(cid);
                     if (ctx) {
                         if (chartInstances[cid]) chartInstances[cid].destroy();
-                        var cleanVals = unit.monthlyVals.map(function(v) { return (v === 0 || v === null) ? null : v; });
+                        
+                        var cleanOt = unit.monthlyOt.map(function(v) { return (v === 0 || v === null) ? 0 : v; });
+                        var cleanSppd = unit.monthlySppd.map(function(v) { return (v === 0 || v === null) ? 0 : v; });
+                        var cleanShift = unit.monthlyShift.map(function(v) { return (v === 0 || v === null) ? 0 : v; });
 
                         chartInstances[cid] = new Chart(ctx, {
                             type: 'bar',
                             data: {
                                 labels: DATASTORE.monthsList,
-                                datasets: [{ label: 'Realisasi', data: cleanVals, backgroundColor: '#0284c7', borderRadius: 4, minBarLength: 4 }]
+                                datasets: [
+                                    { label: 'OT', data: cleanOt, backgroundColor: '#0284c7', borderRadius: 2 },
+                                    { label: 'SPPD', data: cleanSppd, backgroundColor: '#f59e0b', borderRadius: 2 },
+                                    { label: 'Shift', data: cleanShift, backgroundColor: '#10b981', borderRadius: 2 }
+                                ]
                             },
                             options: {
                                 responsive: true,
                                 maintainAspectRatio: false,
                                 scales: {
                                     x: { grid: { display: false }, ticks: { font: { size: 9 }, color: '#94a3b8' } },
-                                    y: { grid: { color: '#334155' }, ticks: { font: { size: 9 }, color: '#94a3b8' } }
+                                    y: { 
+                                        grid: { color: '#334155' }, 
+                                        ticks: { 
+                                            font: { size: 9 }, 
+                                            color: '#94a3b8',
+                                            callback: function(value) {
+                                                return value >= 1000000 ? (value / 1000000).toFixed(0) + 'jt' : value;
+                                            }
+                                        } 
+                                    }
                                 },
                                 plugins: { legend: { display: false } }
                             }
@@ -683,7 +715,6 @@
                     badgeText = "WARNING (75-100%)";
                 }
 
-                // Color styling matching QTY badge style
                 var tadColorClass = u.tad >= 10 ? "bg-amber-500/20 text-amber-300 border-amber-500/30" : (u.tad >= 8 ? "bg-sky-500/20 text-sky-300 border-sky-500/30" : "bg-emerald-500/20 text-emerald-300 border-emerald-500/30");
 
                 rowsHtml += '<tr class="hover:bg-slate-900/60 transition">' +
@@ -776,7 +807,7 @@
             renderCharts();
             renderMonitoringTable();
             renderTerpaguTable();
-            renderBreakdownDiagrams();
+            renderBreakdownDiagrams(); // Pastikan ter-generate saat load
         };
 
         window.onresize = function() {
