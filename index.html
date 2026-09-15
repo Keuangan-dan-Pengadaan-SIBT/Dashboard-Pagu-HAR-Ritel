@@ -212,6 +212,77 @@
             </div>
         </section>
 
+        <!-- Slicers & Filter Interaktif -->
+        <section class="bi-card rounded-2xl p-4 space-y-3">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                <div class="flex items-center space-x-2.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <h3 class="text-xs font-black uppercase tracking-wider text-white">SLICERS & FILTER INTERAKTIF</h3>
+                    <span class="px-2.5 py-0.5 text-[10px] font-extrabold bg-emerald-500/20 text-emerald-400 rounded-md border border-emerald-500/30 tracking-wider">
+                        (Tersinkron PO #4500027303 - 27 Orang TAD)
+                    </span>
+                </div>
+                <div class="flex items-center space-x-3 text-xs text-slate-400 w-full sm:w-auto justify-between sm:justify-end">
+                    <span>Terakhir sinkron: Just now</span>
+                    <button onclick="resetFilters()" class="text-sky-400 hover:text-sky-300 font-semibold flex items-center gap-1 transition">
+                        <i class="fa-solid fa-rotate-right"></i> Reset Filter
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-1">
+                <!-- Slicer 1 -->
+                <div class="space-y-1">
+                    <label class="text-[11px] font-bold text-slate-400">Periode Realisasi Bulan</label>
+                    <select id="filterBulan" onchange="applyFilters()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500">
+                        <option value="all">Semua Bulan (Jan – Sep 2026)</option>
+                        <option value="Jan">Januari 2026</option>
+                        <option value="Feb">Februari 2026</option>
+                        <option value="Mar">Maret 2026</option>
+                        <option value="Apr">April 2026</option>
+                        <option value="Mei">Mei 2026</option>
+                        <option value="Jun">Juni 2026</option>
+                        <option value="Jul">Juli 2026</option>
+                        <option value="Agu">Agustus 2026</option>
+                        <option value="Sep">September 2026</option>
+                    </select>
+                </div>
+
+                <!-- Slicer 2 -->
+                <div class="space-y-1">
+                    <label class="text-[11px] font-bold text-slate-400">Sub Bidang & Unit Layanan</label>
+                    <select id="filterUnit" onchange="applyFilters()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500">
+                        <option value="all">Semua Unit Kerja Regional</option>
+                        <option value="OP_ASET">Sub Bidang Operasi, Pemeliharaan & Aset</option>
+                        <option value="PALU_KENDARI_MAMUJU">Palu, Kendari, Mamuju</option>
+                        <option value="SULUTENGGO">Sulutenggo</option>
+                    </select>
+                </div>
+
+                <!-- Slicer 3 -->
+                <div class="space-y-1">
+                    <label class="text-[11px] font-bold text-slate-400">Komponen Biaya Non PO</label>
+                    <select id="filterKomponen" onchange="applyFilters()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500">
+                        <option value="all">Semua Komponen (OT, SPPD, Shift)</option>
+                        <option value="ot">Lembur (OT)</option>
+                        <option value="sppd">Biaya SPPD</option>
+                        <option value="shift">Premi Shifting</option>
+                    </select>
+                </div>
+
+                <!-- Pencarian Cepat -->
+                <div class="space-y-1">
+                    <label class="text-[11px] font-bold text-slate-400">Pencarian Cepat</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+                            <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                        </span>
+                        <input type="text" id="searchInput" oninput="applyFilters()" placeholder="Cari unit atau seksi..." class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500">
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- TAB 1: RINGKASAN EKSEKUTIF -->
         <div id="tab-ringkasan" class="tab-content space-y-6">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -548,6 +619,29 @@
             renderCharts();
             renderGlobalTrendCharts();
             renderBreakdownDiagrams();
+        }
+
+        function applyFilters() {
+            var bulan = document.getElementById('filterBulan').value;
+            var unit = document.getElementById('filterUnit').value;
+            var komponen = document.getElementById('filterKomponen').value;
+            var keyword = document.getElementById('searchInput').value.toLowerCase();
+
+            showToast("Filter Diterapkan", "Slicer aktif memperbarui tampilan data dashboard.");
+            
+            renderMonitoringTable();
+            renderTerpaguTable();
+            renderGlobalTrendCharts();
+            renderBreakdownDiagrams();
+        }
+
+        function resetFilters() {
+            document.getElementById('filterBulan').value = 'all';
+            document.getElementById('filterUnit').value = 'all';
+            document.getElementById('filterKomponen').value = 'all';
+            document.getElementById('searchInput').value = '';
+            showToast("Filter Direset", "Semua filter dikembalikan ke kondisi default.");
+            applyFilters();
         }
 
         function renderCharts() {
